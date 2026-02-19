@@ -448,5 +448,84 @@ document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 <script>
 (function(){var b=document.createElement('button');b.className='hamburger';b.setAttribute('aria-label','Open menu');b.innerHTML='&#9776;';var n=document.querySelector('nav');var l=document.querySelector('.nav-links');n.insertBefore(b,l);b.addEventListener('click',function(){var o=l.classList.toggle('open');b.innerHTML=o?'&#10005;':'&#9776;';b.setAttribute('aria-label',o?'Close menu':'Open menu');});})();
 </script>
+
+<style>
+/* ===== HERO OVERLAY OPTIONS PREVIEW ===== */
+
+/* Shared: remove the hard-coded filter from .hero-bg so options control it */
+/* Options add a class to <section class="hero"> */
+
+/* Option 1 — Current (Dark)   brightness 0.42, no tint */
+.hero.opt-1 .hero-bg{filter:brightness(0.42);}
+
+/* Option 2 — Softer Dark      brightness 0.62, no tint */
+.hero.opt-2 .hero-bg{filter:brightness(0.62);}
+
+/* Option 3 — Bright & Vivid   brightness 0.72 + boosted saturation */
+.hero.opt-3 .hero-bg{filter:brightness(0.72) saturate(1.35) contrast(1.05);}
+
+/* Option 4 — Golden Hour      brighter photo + warm gold-amber top gradient */
+.hero.opt-4 .hero-bg{filter:brightness(0.82) saturate(1.1);}
+.hero.opt-4::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(255,200,0,0.40) 0%,rgba(255,120,30,0.25) 45%,rgba(26,26,92,0.52) 100%);
+  z-index:1;pointer-events:none;}
+
+/* Option 5 — Camp Poster      very bright photo + coral-to-sky vivid tint */
+.hero.opt-5 .hero-bg{filter:brightness(0.88) saturate(1.2);}
+.hero.opt-5::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,90,95,0.48) 0%,rgba(255,184,0,0.18) 50%,rgba(0,174,239,0.42) 100%);
+  z-index:1;pointer-events:none;}
+
+/* ── Preview Switcher Panel ── */
+#opt-panel{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  z-index:9999;
+  background:rgba(10,10,46,0.92);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:16px;padding:0.75rem 1rem;
+  display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;justify-content:center;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  font-family:'Nunito',sans-serif;
+}
+#opt-panel span{color:rgba(255,255,255,0.55);font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.opt-btn{
+  background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);
+  color:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;
+  padding:0.4rem 0.85rem;border-radius:50px;cursor:pointer;
+  transition:background 0.2s,border-color 0.2s,color 0.2s;white-space:nowrap;
+}
+.opt-btn:hover{background:rgba(255,255,255,0.18);}
+.opt-btn.active{background:var(--gold);border-color:var(--gold);color:var(--deep);}
+</style>
+
+<div id="opt-panel">
+  <span>Hero Photo ▸</span>
+  <button class="opt-btn" data-opt="opt-1">1 — Current (Dark)</button>
+  <button class="opt-btn" data-opt="opt-2">2 — Softer Dark</button>
+  <button class="opt-btn" data-opt="opt-3">3 — Vivid Summer</button>
+  <button class="opt-btn" data-opt="opt-4">4 — Golden Hour</button>
+  <button class="opt-btn" data-opt="opt-5">5 — Camp Poster</button>
+</div>
+
+<script>
+(function(){
+  var hero=document.querySelector('.hero');
+  var btns=document.querySelectorAll('.opt-btn');
+  function activate(opt){
+    ['opt-1','opt-2','opt-3','opt-4','opt-5'].forEach(function(o){hero.classList.remove(o);});
+    if(opt) hero.classList.add(opt);
+    btns.forEach(function(b){
+      b.classList.toggle('active', b.dataset.opt===opt);
+    });
+    localStorage.setItem('heroOpt',opt||'');
+  }
+  // Restore last choice or default to opt-3 (Vivid Summer) as a nice start
+  var saved=localStorage.getItem('heroOpt');
+  activate(saved||'opt-3');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){activate(b.dataset.opt);});
+  });
+})();
+</script>
 </body>
 </html>
