@@ -344,6 +344,7 @@ a,button{transition:transform 0.18s, box-shadow 0.18s, background 0.18s, color 0
 document.documentElement.classList.add('js-ready');
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){q.parentElement.classList.toggle('open');});});
 </script>
 <div class="volunteer-strip">
   <p>&#128588; Want to make a difference? We're always looking for amazing volunteers!</p>
