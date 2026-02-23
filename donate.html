@@ -347,11 +347,6 @@ document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
   All funds are generated through camper fees and charitable contributions.</p>
   <p style="margin-top:0.5rem;color:rgba(255,255,255,0.28);">501(c)(3) &middot; EIN: 54-2101275 &middot; &copy; 2007&ndash;2026 Camp Adam Fisher, Inc. All Rights Reserved.</p>
 </footer>
-<script>
-document.documentElement.classList.add('js-ready');
-const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
-</script>
 <style>
 .hamburger{display:none;background:none;border:none;font-size:1.6rem;color:white;cursor:pointer;padding:0.25rem 0.5rem;margin-left:auto;}
 @media(max-width:768px){
