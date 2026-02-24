@@ -330,6 +330,16 @@ document.documentElement.classList.add('js-ready');
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 </script>
+<style>
+.camp-photo-banner{position:relative;overflow:hidden;max-height:480px;}
+.camp-photo-banner img{width:100%;display:block;object-fit:cover;object-position:center 30%;}
+.camp-photo-banner-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,46,0.65) 0%,transparent 60%);display:flex;align-items:flex-end;justify-content:center;padding:2.5rem;}
+.camp-photo-banner-overlay p{color:white;font-family:'Caveat',cursive;font-size:clamp(1.5rem,3.5vw,2.25rem);font-weight:800;text-align:center;text-shadow:0 2px 12px rgba(0,0,0,0.5);}
+</style>
+<div class="camp-photo-banner">
+  <img src="images/rs.jpg" alt="The full Camp Adam Fisher 2025 community — over 200 campers and volunteers in pink shirts" loading="lazy">
+  <div class="camp-photo-banner-overlay"><p>Your gift helped make this possible. Thank you.</p></div>
+</div>
 <div class="volunteer-strip">
   <p>&#128588; Want to make a difference? We're always looking for amazing volunteers!</p>
   <a href="volunteer.html" class="btn-vol">Volunteer with Us</a>
