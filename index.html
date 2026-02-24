@@ -405,23 +405,38 @@ a,button{transition:transform 0.18s, box-shadow 0.18s, background 0.18s, color 0
 </section>
 
 <style>
-.photo-strip{overflow:hidden;background:var(--deep);}
-.photo-strip-inner{display:grid;grid-template-columns:repeat(5,1fr);}
-.strip-photo{aspect-ratio:4/3;overflow:hidden;}
-.strip-photo img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease;}
-.strip-photo:hover img{transform:scale(1.06);}
+.gallery-section{padding:4.5rem 2rem 5rem;background:var(--sand);}
+.gallery-wrap{position:relative;max-width:1060px;margin:0 auto;border-radius:26px;overflow:hidden;box-shadow:0 24px 64px rgba(26,26,92,0.22);}
+.gallery-stage{aspect-ratio:16/9;position:relative;background:var(--deep);}
+.gallery-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.75s ease;pointer-events:none;}
+.gallery-slide.active{opacity:1;pointer-events:auto;}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.88);border:none;border-radius:50%;width:46px;height:46px;font-size:1.75rem;line-height:1;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s;box-shadow:0 3px 12px rgba(0,0,0,0.25);}
+.gallery-btn:hover{background:white;transform:translateY(-50%) scale(1.1);}
+.gallery-prev{left:14px;}
+.gallery-next{right:14px;}
+.gallery-counter{position:absolute;bottom:14px;right:16px;background:rgba(0,0,0,0.55);color:white;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:800;padding:0.28rem 0.7rem;border-radius:50px;z-index:10;letter-spacing:0.5px;}
+.gallery-pause{position:absolute;bottom:14px;left:16px;background:rgba(0,0,0,0.45);border:none;color:white;font-size:0.78rem;font-weight:800;padding:0.28rem 0.7rem;border-radius:50px;z-index:10;cursor:pointer;font-family:'Nunito',sans-serif;letter-spacing:0.5px;transition:background 0.2s;}
+.gallery-pause:hover{background:rgba(0,0,0,0.7);}
 @media(max-width:768px){
-  .photo-strip-inner{grid-template-columns:repeat(3,1fr);}
-  .strip-photo:nth-child(4),.strip-photo:nth-child(5){display:none;}
+  .gallery-wrap{border-radius:16px;}
+  .gallery-section{padding:3rem 1rem 4rem;}
+  .gallery-btn{width:38px;height:38px;font-size:1.4rem;}
 }
 </style>
-<section class="photo-strip">
-  <div class="photo-strip-inner">
-    <div class="strip-photo"><img src="images/43.jpg" alt="Campers balancing on a foam water mat on Lake Marion" loading="lazy"></div>
-    <div class="strip-photo"><img src="images/44.jpg" alt="Campers learning archery at Camp Adam Fisher" loading="lazy"></div>
-    <div class="strip-photo"><img src="images/46.jpg" alt="Campers roasting marshmallows around a campfire" loading="lazy"></div>
-    <div class="strip-photo"><img src="images/49.jpg" alt="Campers riding the hydroplane water toy on the lake" loading="lazy"></div>
-    <div class="strip-photo"><img src="images/59.jpg" alt="Camp friends smiling together at the dining hall" loading="lazy"></div>
+<section class="gallery-section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:2rem;" class="reveal">
+      <span class="section-tag">Photo Gallery</span>
+      <h2 class="section-title">A summer <span class="accent">they&rsquo;ll never forget.</span></h2>
+    </div>
+  </div>
+  <div class="gallery-wrap" id="galleryWrap">
+    <div class="gallery-stage" id="galleryStage"></div>
+    <button class="gallery-btn gallery-prev" id="galleryPrev" aria-label="Previous photo">&#8249;</button>
+    <button class="gallery-btn gallery-next" id="galleryNext" aria-label="Next photo">&#8250;</button>
+    <div class="gallery-counter" id="galleryCounter">1 / 54</div>
+    <button class="gallery-pause" id="galleryPause" aria-label="Pause slideshow">&#10074;&#10074; Pause</button>
   </div>
 </section>
 <section class="register-section">
@@ -472,5 +487,101 @@ document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 (function(){var b=document.createElement('button');b.className='hamburger';b.setAttribute('aria-label','Open menu');b.innerHTML='&#9776;';var n=document.querySelector('nav');var l=document.querySelector('.nav-links');n.insertBefore(b,l);b.addEventListener('click',function(){var o=l.classList.toggle('open');b.innerHTML=o?'&#10005;':'&#9776;';b.setAttribute('aria-label',o?'Close menu':'Open menu');});})();
 </script>
 
+<script>
+(function(){
+  var imgs=[
+    {s:'images/1.jpg',a:'Camp Adam Fisher campers having fun outdoors'},
+    {s:'images/2.jpg',a:'Camp Adam Fisher activities on the waterfront'},
+    {s:'images/3.jpg',a:'Campers enjoying a sunny day at camp'},
+    {s:'images/4.jpg',a:'Camp Adam Fisher campers and counselors'},
+    {s:'images/5.jpg',a:'Outdoor fun at Camp Adam Fisher'},
+    {s:'images/7.jpg',a:'Camp Adam Fisher group activity'},
+    {s:'images/8.jpg',a:'Campers laughing and playing at camp'},
+    {s:'images/11.jpg',a:'Camp Adam Fisher waterfront activities'},
+    {s:'images/12.jpg',a:'Campers enjoying lake activities'},
+    {s:'images/13.jpg',a:'Camp friends making memories together'},
+    {s:'images/14.jpg',a:'Camp Adam Fisher outdoor activities'},
+    {s:'images/15.jpg',a:'Campers at Camp Adam Fisher'},
+    {s:'images/16.jpg',a:'Camp Adam Fisher summer fun'},
+    {s:'images/17.jpg',a:'Campers enjoying the waterfront'},
+    {s:'images/18.jpg',a:'Camp Adam Fisher group photo'},
+    {s:'images/19.jpg',a:'Campers and counselors at camp'},
+    {s:'images/20.jpg',a:'Camp Adam Fisher activities'},
+    {s:'images/21.jpg',a:'Outdoor adventures at Camp Adam Fisher'},
+    {s:'images/22.jpg',a:'Camp Adam Fisher summer memories'},
+    {s:'images/23.jpg',a:'Campers having fun at Lake Marion'},
+    {s:'images/24.jpg',a:'Camp Adam Fisher waterfront fun'},
+    {s:'images/25.jpg',a:'Campers enjoying camp activities'},
+    {s:'images/26.jpg',a:'Camp Adam Fisher group activities'},
+    {s:'images/27.jpg',a:'Campers and volunteers at camp'},
+    {s:'images/28.jpg',a:'Camp Adam Fisher outdoor fun'},
+    {s:'images/29.jpg',a:'Camp activities and friendships'},
+    {s:'images/30.jpg',a:'Campers at Camp Adam Fisher'},
+    {s:'images/31.jpg',a:'Camp Adam Fisher summer camp activities'},
+    {s:'images/32.jpg',a:'Campers enjoying a week at camp'},
+    {s:'images/33.jpg',a:'Camp Adam Fisher waterfront activities'},
+    {s:'images/34.jpg',a:'Camp fun and friendship'},
+    {s:'images/35.jpg',a:'Campers at Camp Adam Fisher'},
+    {s:'images/36.jpg',a:'Patriotic themed fun at Camp Adam Fisher'},
+    {s:'images/37.jpg',a:'Campers in Camp Adam Fisher teal shirts'},
+    {s:'images/38.jpg',a:'Silly fun at Camp Adam Fisher'},
+    {s:'images/39.jpg',a:'Campers splashing in the lake at camp'},
+    {s:'images/40.jpg',a:'Waterfront activities at Camp Adam Fisher'},
+    {s:'images/41.jpg',a:'Kids playing watermelon game in Lake Marion'},
+    {s:'images/42.jpg',a:'Campers relaxing in hammocks by the lake'},
+    {s:'images/43.jpg',a:'Campers balancing on a foam water mat on Lake Marion'},
+    {s:'images/44.jpg',a:'Campers learning archery at Camp Adam Fisher'},
+    {s:'images/45.jpg',a:'Campers riding inflatables on Lake Marion'},
+    {s:'images/46.jpg',a:'Campers roasting marshmallows around a campfire'},
+    {s:'images/47.jpg',a:'Campers log rolling on the waterfront'},
+    {s:'images/49.jpg',a:'Campers riding the hydroplane water toy on the lake'},
+    {s:'images/50.jpg',a:'Campers covered in color powder at the color run'},
+    {s:'images/51.jpg',a:'Staff and campers celebrating at the color run'},
+    {s:'images/54.jpg',a:'Camp Adam Fisher volunteer staff team at the waterfront'},
+    {s:'images/57.jpg',a:'Teen campers posing with a pink flamingo inflatable'},
+    {s:'images/58.jpg',a:'Camp Adam Fisher merchandise and gear'},
+    {s:'images/59.jpg',a:'Camp friends smiling together at the dining hall'},
+    {s:'images/60.jpg',a:'Two campers making a heart with their hands at the waterfront'},
+    {s:'images/P6225875.webp',a:'Camp Adam Fisher waterfront on Lake Marion with water inflatables'},
+    {s:'images/rs.jpg',a:'The full Camp Adam Fisher 2025 community — over 200 campers and volunteers'}
+  ];
+  var stage=document.getElementById('galleryStage');
+  var counter=document.getElementById('galleryCounter');
+  var pauseBtn=document.getElementById('galleryPause');
+  var cur=0,timer=null,paused=false,slides=[];
+
+  imgs.forEach(function(d,i){
+    var div=document.createElement('div');
+    div.className='gallery-slide'+(i===0?' active':'');
+    var img=document.createElement('img');
+    img.src=d.s;img.alt=d.a;
+    img.loading=(i<2)?'eager':'lazy';
+    div.appendChild(img);stage.appendChild(div);slides.push(div);
+  });
+
+  function goTo(n){
+    slides[cur].classList.remove('active');
+    cur=(n+imgs.length)%imgs.length;
+    slides[cur].classList.add('active');
+    counter.textContent=(cur+1)+' / '+imgs.length;
+  }
+  function next(){goTo(cur+1);}
+  function prev(){goTo(cur-1);}
+  function start(){if(!paused)timer=setInterval(next,4200);}
+  function stop(){clearInterval(timer);}
+
+  document.getElementById('galleryPrev').addEventListener('click',function(){stop();prev();start();});
+  document.getElementById('galleryNext').addEventListener('click',function(){stop();next();start();});
+  pauseBtn.addEventListener('click',function(){
+    paused=!paused;
+    if(paused){stop();pauseBtn.innerHTML='&#9654; Play';}
+    else{start();pauseBtn.innerHTML='&#10074;&#10074; Pause';}
+  });
+  var wrap=document.getElementById('galleryWrap');
+  wrap.addEventListener('mouseenter',stop);
+  wrap.addEventListener('mouseleave',function(){if(!paused)start();});
+  start();
+})();
+</script>
 </body>
 </html>
